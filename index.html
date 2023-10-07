@@ -1,0 +1,168 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Garmin OAuth</title>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+    <style>
+        /* Page Background */
+        body {
+            background: #0E1117;
+        }
+
+        /* Title */
+        h1 {
+            color: #FFF;
+            font-family: 'Inter', sans-serif;
+            font-size: 50px;
+            font-weight: 700;
+        }
+
+        /* Buttons */
+        #authenticate, #disconnect {
+            
+            border-radius: 9%;
+            font-family: 'Inter', sans-serif;
+            font-size: 50px;
+            font-weight: 700;
+            color: #FFF;
+        }
+
+        #authenticate {
+            background: #11A9ED;
+        }
+
+        #disconnect {
+            background: #ED4611;
+        }
+
+        /* Connection Status */
+        #connectionStatus {
+            font-size: 24px;
+        }
+
+        .connected {
+            color: #2ECF3C;
+        }
+
+        .disconnected {
+            color: #ED4611;
+        }
+
+        /* Text */
+        #tips {
+            color: #F1BF0D;
+            font-family: 'Inter', sans-serif;
+            font-size: 51px;
+            font-weight: 400;
+        }
+    </style>
+</head>
+<body>
+    <h1>Manage your Garmin Connection</h1>
+    <button id="authenticate">Authenticate</button>
+    <button id="disconnect" style="display: none;">Disconnect Garmin</button>
+    <div id="connectionStatus"></div>
+    <div id="status"></div>
+    <div id="tips">
+        <p>1. Authenticate button will redirect to the Garmin Connect page where you should enter your Garmin credentials and accept the access requests.</p>
+        <p>2. After the connection is sucessfullClick Disconnect to revoke access for this application.</p>
+    </div>
+
+    <script>
+        const urlParams = new URLSearchParams(window.location.search);
+        const userId = urlParams.get('user_id');
+
+        // Check Garmin status on page load
+        $.ajax({
+            url: 'https://dashboard.api.tokenofme.io/check_garmin_status',
+            type: 'POST',
+            contentType: 'application/json',
+            data: JSON.stringify({ user_id: userId }),
+            dataType: 'json',
+            success: function(data) {
+                if (data.status === 'connected') {
+                    $('#authenticate').hide();
+                    $('#disconnect').show();
+                    $('#connectionStatus').text('Garmin device is connected ✅').addClass('connected');
+                } else {
+                    $('#authenticate').show();
+                    $('#disconnect').hide();
+                    $('#connectionStatus').text('No Garmin device connected').addClass('disconnected');
+                }
+            },
+            error: function() {
+                $('#status').text('Failed to check Garmin status');
+            }
+        });
+
+
+        $('#authenticate').click(function() {
+            $.ajax({
+                url: 'https://dashboard.api.tokenofme.io/initiate_oauth',
+                type: 'POST',
+                contentType: 'application/json',
+                data: JSON.stringify({ user_id: userId }),
+                dataType: 'json',
+                success: function(data) {
+                    if (data.auth_url) {
+                        window.location.href = data.auth_url;
+                    } else {
+                        $('#status').text('Failed to initiate OAuth process');
+                    }
+                },
+                error: function() {
+                    $('#status').text('Failed to initiate OAuth process');
+                }
+            });
+        });
+
+        $('#disconnect').click(function() {
+            $.ajax({
+                url: 'https://dashboard.api.tokenofme.io/disconnect_garmin',
+                type: 'POST',
+                contentType: 'application/json',
+                data: JSON.stringify({ user_id: userId }),
+                dataType: 'json',
+                success: function(data) {
+                    if (data.status === 'Successfully Disconnected') {
+                        $('#status').text('Successfully disconnected');
+                        $('#authenticate').show();
+                        $('#disconnect').hide();
+                    } else {
+                        $('#status').text('Failed to disconnect Garmin');
+                    }
+                },
+                error: function() {
+                    $('#status').text('Failed to disconnect Garmin');
+                }
+            });
+        });
+
+        $(document).ready(function() {
+            const oauthVerifier = urlParams.get('oauth_verifier');
+
+            if (oauthVerifier) {
+                $.ajax({
+                    url: 'https://dashboard.api.tokenofme.io/callback',
+                    type: 'POST',
+                    contentType: 'application/json',
+                    data: JSON.stringify({ user_id: userId, oauth_verifier: oauthVerifier }),
+                    dataType: 'json',
+                    success: function(data) {
+                        if (data.status === 'success') {
+                            $('#status').text('Auth success, close page and return to previous tab');
+                            $('#authenticate').hide();
+                            $('#disconnect').show();
+                        } else {
+                            $('#status').text('Failed to exchange request token for access token');
+                        }
+                    },
+                    error: function() {
+                        $('#status').text('Failed to exchange request token for access token');
+                    }
+                });
+            }
+        });
+    </script>
+</body>
+</html>
