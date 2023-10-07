@@ -105,12 +105,15 @@
                 dataType: 'json',
                 success: function(data) {
                     if (data.auth_url) {
+                        console.log(data);
                         window.location.href = data.auth_url;
                     } else {
+                        console.log(data);
                         $('#status').text('Failed to initiate OAuth process');
                     }
                 },
                 error: function() {
+                    console.log(data);
                     $('#status').text('Failed to initiate OAuth process');
                 }
             });
@@ -125,10 +128,12 @@
                 dataType: 'json',
                 success: function(data) {
                     if (data.status === 'Successfully Disconnected') {
+                        console.log(data);
                         $('#status').text('Successfully disconnected');
                         $('#authenticate').show();
                         $('#disconnect').hide();
                     } else {
+                        console.log(data);
                         $('#status').text('Failed to disconnect Garmin');
                     }
                 },
@@ -150,10 +155,12 @@
                     dataType: 'json',
                     success: function(data) {
                         if (data.status === 'success') {
+                            console.log(data);
                             $('#status').text('Auth success, close page and return to previous tab');
                             $('#authenticate').hide();
                             $('#disconnect').show();
                         } else {
+                            console.log(data);
                             $('#status').text('Failed to exchange request token for access token');
                         }
                     },
