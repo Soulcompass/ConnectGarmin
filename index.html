@@ -71,13 +71,14 @@
     <script>
         const urlParams = new URLSearchParams(window.location.search);
         const userId = urlParams.get('user_id');
-        localStorage.setItem('userId', userId); // Store userId in local storage
+        //localStorage.setItem('userId', userId); // Store userId in local storage
         var uid = localStorage.getItem("userId")
 
         if(uid == null)
         {
             localStorage.setItem("userId", user_id)
         }    
+
         // Check Garmin status on page load
         $.ajax({
             url: 'https://dashboard.api.tokenofme.io/check_garmin_status',
@@ -165,16 +166,16 @@
                             $('#status').text('Auth success, close page and return to previous tab');
                             $('#authenticate').hide();
                             $('#disconnect').show();
-                            localStorage.setItem("userId", null)
+                            //localStorage.setItem("userId", null)
                         } else {
                             console.log(data);
                             $('#status').text('Failed to exchange request token for access token');
-                            localStorage.setItem("userId", null)
+                            //localStorage.setItem("userId", null)
                         }
                     },
                     error: function() {
                         $('#status').text('Failed to exchange request token for access token');
-                        localStorage.setItem("userId", null)
+                        //localStorage.setItem("userId", null)
                     }
                 });
             }
