@@ -78,7 +78,7 @@
             url: 'https://dashboard.api.tokenofme.io/check_garmin_status',
             type: 'POST',
             contentType: 'application/json',
-            data: JSON.stringify({ user_id: localStorage.getItem('userId') }), // Get userId from local storage
+            data: { "user_id": localStorage.getItem('userId')}, // Get userId from local storage
             dataType: 'json',
             success: function(data) {
                 if (data.status === 'connected') {
@@ -102,7 +102,7 @@
                 url: 'https://dashboard.api.tokenofme.io/initiate_oauth',
                 type: 'POST',
                 contentType: 'application/json',
-                data: JSON.stringify({ user_id: localStorage.getItem('userId') }), // Get userId from local storage
+                data: { "user_id": localStorage.getItem('userId')}, // Get userId from local storage
                 dataType: 'json',
                 success: function(data) {
                     if (data.auth_url) {
@@ -125,7 +125,7 @@
                 url: 'https://dashboard.api.tokenofme.io/disconnect_garmin',
                 type: 'POST',
                 contentType: 'application/json',
-                data: JSON.stringify({ user_id: localStorage.getItem('userId') }), // Get userId from local storage
+                data: { "user_id": localStorage.getItem('userId')}, // Get userId from local storage
                 dataType: 'json',
                 success: function(data) {
                     if (data.status === 'Successfully Disconnected') {
@@ -152,7 +152,7 @@
                     url: 'https://dashboard.api.tokenofme.io/callback',
                     type: 'POST',
                     contentType: 'application/json',
-                    data: JSON.stringify({ user_id: localStorage.getItem('userId'), oauth_verifier: oauthVerifier }), // Get userId from local storage
+                    data: { "user_id": localStorage.getItem('userId'), oauth_verifier: oauthVerifier }, // Get userId from local storage
                     dataType: 'json',
                     success: function(data) {
                         if (data.status === 'success') {
