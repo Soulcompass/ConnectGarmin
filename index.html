@@ -72,9 +72,9 @@
         const urlParams = new URLSearchParams(window.location.search);
         const userId = urlParams.get('user_id');
         //localStorage.setItem('userId', userId); // Store userId in local storage
-        var uid = localStorage.getItem("userId")
+        
 
-        if(uid == null)
+        if(userId != null)
         {
             localStorage.setItem("userId", user_id)
         }    
