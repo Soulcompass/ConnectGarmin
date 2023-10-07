@@ -71,13 +71,14 @@
     <script>
         const urlParams = new URLSearchParams(window.location.search);
         const userId = urlParams.get('user_id');
+        localStorage.setItem('userId', userId); // Store userId in local storage
 
         // Check Garmin status on page load
         $.ajax({
             url: 'https://dashboard.api.tokenofme.io/check_garmin_status',
             type: 'POST',
             contentType: 'application/json',
-            data: JSON.stringify({ user_id: userId }),
+            data: JSON.stringify({ user_id: localStorage.getItem('userId') }), // Get userId from local storage
             dataType: 'json',
             success: function(data) {
                 if (data.status === 'connected') {
@@ -101,7 +102,7 @@
                 url: 'https://dashboard.api.tokenofme.io/initiate_oauth',
                 type: 'POST',
                 contentType: 'application/json',
-                data: JSON.stringify({ user_id: userId }),
+                data: JSON.stringify({ user_id: localStorage.getItem('userId') }), // Get userId from local storage
                 dataType: 'json',
                 success: function(data) {
                     if (data.auth_url) {
@@ -124,7 +125,7 @@
                 url: 'https://dashboard.api.tokenofme.io/disconnect_garmin',
                 type: 'POST',
                 contentType: 'application/json',
-                data: JSON.stringify({ user_id: userId }),
+                data: JSON.stringify({ user_id: localStorage.getItem('userId') }), // Get userId from local storage
                 dataType: 'json',
                 success: function(data) {
                     if (data.status === 'Successfully Disconnected') {
@@ -151,7 +152,7 @@
                     url: 'https://dashboard.api.tokenofme.io/callback',
                     type: 'POST',
                     contentType: 'application/json',
-                    data: JSON.stringify({ user_id: userId, oauth_verifier: oauthVerifier }),
+                    data: JSON.stringify({ user_id: localStorage.getItem('userId'), oauth_verifier: oauthVerifier }), // Get userId from local storage
                     dataType: 'json',
                     success: function(data) {
                         if (data.status === 'success') {
@@ -173,3 +174,4 @@
     </script>
 </body>
 </html>
+
