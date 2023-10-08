@@ -19,8 +19,9 @@
 
         /* Buttons */
         #authenticate, #disconnect {
-            
-            border-radius: 9%;
+            width: 400px;
+            height: 60px;
+            border-radius: 11%;
             font-family: 'Inter', sans-serif;
             font-size: 30px;
             font-weight: 700;
@@ -52,17 +53,18 @@
         #tips {
             color: #F1BF0D;
             font-family: 'Inter', sans-serif;
-            font-size: 51px;
+            font-size: 40px;
             font-weight: 400;
         }
 
         /* Status Messages */
         .statusMessage {
             color: #FFF;
-            font-family: Inter;
-            font-size: 68px;
+            font-style: italic;
+            font-family: 'Inter', sans-serif;
+            font-size: 30px;
             font-style: normal;
-            font-weight: 700;
+            font-weight: 400;
             line-height: normal;
         }
     </style>
@@ -75,6 +77,7 @@
         <div id="connectionStatus"></div>
         <div id="status" class="statusMessage"></div>
         <div id="tips">
+            <p>Tips:</p>
             <p>1. Click 'Authenticate' to securely link your Garmin account and accept the request for accessing your Heart Rate Data.</p>
             <p>2. Once authenticated, the 'Authenticate' button will change to 'Disconnect'; click it to revoke permission to access your data.</p>
         </div>
@@ -174,7 +177,7 @@
                     success: function(data) {
                         if (data.status === 'success') {
                             console.log(data);
-                            $('#status').text('Auth success, close page and return to previous tab');
+                            $('#status').text('Authentication success, close page and return to previous tab');
                             $('#authenticate').hide();
                             $('#disconnect').show();
                             //localStorage.setItem("userId", null)
