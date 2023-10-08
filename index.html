@@ -22,7 +22,7 @@
             
             border-radius: 9%;
             font-family: 'Inter', sans-serif;
-            font-size: 50px;
+            font-size: 30px;
             font-weight: 700;
             color: #FFF;
         }
@@ -55,18 +55,29 @@
             font-size: 51px;
             font-weight: 400;
         }
+
+        /* Status Messages */
+        .statusMessage {
+            color: #FFF;
+            font-family: Inter;
+            font-size: 68px;
+            font-style: normal;
+            font-weight: 700;
+            line-height: normal;
+        }
     </style>
 </head>
 <body>
-    <h1>Manage your Garmin Connection</h1>
-    <button id="authenticate">Authenticate</button>
-    <button id="disconnect" style="display: none;">Disconnect Garmin</button>
-    <div id="connectionStatus"></div>
-    <div id="status"></div>
-    <div id="tips">
-        <p>1. Authenticate button will redirect to the Garmin Connect page where you should enter your Garmin credentials and accept the access requests.</p>
-        <p>2. After the connection is sucessfullClick Disconnect to revoke access for this application.</p>
-    </div>
+    <body>
+        <h1>Manage your Garmin Connection</h1>
+        <button id="authenticate">Authenticate</button>
+        <button id="disconnect" style="display: none;">Disconnect Garmin</button>
+        <div id="connectionStatus"></div>
+        <div id="status" class="statusMessage"></div>
+        <div id="tips">
+            <p>1. Authenticate button will redirect to the Garmin Connect page where you should enter your Garmin credentials and accept the access requests.</p>
+            <p>2. After the connection is successful, click Disconnect to revoke access for this application.</p>
+        </div>
 
     <script>
         const urlParams = new URLSearchParams(window.location.search);
@@ -183,4 +194,5 @@
     </script>
 </body>
 </html>
+
 
