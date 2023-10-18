@@ -74,7 +74,7 @@
         <h1>Manage your Garmin Connection</h1>
         <button id="authenticate">Authenticate</button>
         <button id="disconnect" style="display: none;">Disconnect Garmin</button>
-        <div id="connectionStatus"></div>
+        <!-- <div id="connectionStatus"></div> -->
         <div id="status" class="statusMessage"></div>
         <div id="tips">
             <p>Tips:</p>
@@ -177,7 +177,7 @@
                     success: function(data) {
                         if (data.status === 'success') {
                             console.log(data);
-                            $('#status').text('Authentication success, close page and return to previous tab');
+                            $('#status').text('Authentication is successfull, you can now close this page and return to advanced Soul Compass profile page tab');
                             $('#authenticate').hide();
                             $('#disconnect').show();
                             //localStorage.setItem("userId", null)
