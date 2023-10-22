@@ -7,22 +7,26 @@
         /* Page Background */
         body {
             background: #0E1117;
+            font-family: 'Modeco', sans-serif;
         }
 
         /* Title */
         h1 {
             color: #FFF;
-            font-family: 'Inter', sans-serif;
+            font-family: 'Modeco', sans-serif;
             font-size: 50px;
             font-weight: 700;
         }
-
-        /* Buttons */
+        @font-face {
+            font-family: 'Modeco';
+            src: url('ModecoTrial-Regular.otf'); /* Adjust this path if necessary */
+        }
+                /* Buttons */
         #authenticate, #disconnect {
             width: 400px;
             height: 60px;
             border-radius: 11%;
-            font-family: 'Inter', sans-serif;
+            font-family: 'Modeco', sans-serif;
             font-size: 30px;
             font-weight: 700;
             color: #FFF;
@@ -49,11 +53,24 @@
             color: #ED4611;
         }
 
-        /* Text */
-        #tips {
-            color: #F1BF0D;
-            font-family: 'Inter', sans-serif;
+        /* Main Tip */
+        .main-tip {
+            color: #48c903;
+            font-family: 'Modeco', sans-serif;
             font-size: 40px;
+            
+        }
+        #status {
+            color: #5df10d;
+            font-family: 'Modeco', sans-serif;
+            font-size: 30px;
+            font-weight: 400;
+        }
+        /* Footnote */
+        .footnote {
+            color: #afafafd6;
+            font-family: 'Modeco', sans-serif;
+            font-size: 20px;
             font-weight: 400;
         }
 
@@ -72,14 +89,13 @@
 <body>
     <body>
         <h1>Manage your Garmin Connection</h1>
-        <button id="authenticate">Authenticate</button>
+        <button id="authenticate">Connect Garmin</button>
         <button id="disconnect" style="display: none;">Disconnect Garmin</button>
         <!-- <div id="connectionStatus"></div> -->
         <div id="status" class="statusMessage"></div>
         <div id="tips">
-            <p>Tips:</p>
-            <p>1. Click 'Authenticate' to securely link your Garmin account and accept the request for accessing your Heart Rate data.</p>
-            <p>2. Once authenticated, the 'Authenticate' button will change to 'Disconnect'; click it to revoke permission to access your data.</p>
+            <p class="main-tip">Tip: Click "Connect Garmin" to securely pair your Garmin Connect account and accept the request for accessing your Heart Rate data.</p>
+            <p class="footnote">**If you wish to disconnect or revoke access to your data click "Disconnect".</p>
         </div>
 
     <script>
@@ -177,7 +193,7 @@
                     success: function(data) {
                         if (data.status === 'success') {
                             console.log(data);
-                            $('#status').text('You have sucessfully connected your Garmin account, you can now close this page and return to advanced Soul Compass profile page tab');
+                            $('#status').text('You have sucessfully connected your Garmin account, you can now close this page and return to Advanced Soul Compass profile page');
                             $('#authenticate').hide();
                             $('#disconnect').show();
                             //localStorage.setItem("userId", null)
