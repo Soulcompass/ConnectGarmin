@@ -97,10 +97,25 @@
             line-height: normal;
             text-align: center;
         }
+
+        /* Image Style */
+        #launchImageContainer {
+            display: flex;
+            justify-content: center; /* Horizontally center */
+            width: 10%; /* Take full width */
+            padding: 10px; /* Optional spacing around the image */
+        }
+
+        #launchImage {
+            max-width: 10%; /* Ensures the image does not exceed the container's width */
+            height: auto; /* Maintain aspect ratio */
+        }
+
     </style>
 </head>
 <body>
     <body>
+        <img id="launchImage" src="launchscreenTOM.png" alt="Launch Screen Image">
         <h1>Manage your Garmin Connection</h1>
         <button id="authenticate">Connect Garmin</button>
         <button id="disconnect" style="display: none;">Disconnect Garmin</button>
