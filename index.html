@@ -8,6 +8,14 @@
         body {
             background: #0E1117;
             font-family: 'Modeco', sans-serif;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            height: 100vh;
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
         }
 
         /* Title */
@@ -30,6 +38,7 @@
             font-size: 30px;
             font-weight: 700;
             color: #FFF;
+            margin: 10px auto;
         }
 
         #authenticate {
@@ -43,6 +52,7 @@
         /* Connection Status */
         #connectionStatus {
             font-size: 24px;
+            text-align: center;
         }
 
         .connected {
@@ -55,16 +65,17 @@
 
         /* Main Tip */
         .main-tip {
-            color: #48c903;
+            color: #e1e1e1;
             font-family: 'Modeco', sans-serif;
             font-size: 40px;
-            
+            text-align: center;
         }
         #status {
             color: #5df10d;
             font-family: 'Modeco', sans-serif;
             font-size: 30px;
             font-weight: 400;
+            text-align: center;
         }
         /* Footnote */
         .footnote {
@@ -72,6 +83,7 @@
             font-family: 'Modeco', sans-serif;
             font-size: 20px;
             font-weight: 400;
+            text-align: center;
         }
 
         /* Status Messages */
@@ -83,6 +95,7 @@
             font-style: normal;
             font-weight: 400;
             line-height: normal;
+            text-align: center;
         }
     </style>
 </head>
@@ -94,7 +107,7 @@
         <!-- <div id="connectionStatus"></div> -->
         <div id="status" class="statusMessage"></div>
         <div id="tips">
-            <p class="main-tip">Tip: Click "Connect Garmin" to securely pair your Garmin Connect account and accept the request for accessing your Heart Rate data.</p>
+            <p class="main-tip">Tip: Click "Connect Garmin" to securely pair your Garmin Connect account<br> and accept the request for accessing your Heart Rate data.</p>
             <p class="footnote">**If you wish to disconnect or revoke access to your data click "Disconnect".</p>
         </div>
 
@@ -193,7 +206,7 @@
                     success: function(data) {
                         if (data.status === 'success') {
                             console.log(data);
-                            $('#status').text('You have sucessfully connected your Garmin account, you can now close this page and return to Advanced Soul Compass profile page');
+                            $('#status').text('You have successfully connected your Garmin account. Click the link to access Soul Compass Advanced Dashboard https://advancedsoulcompass.streamlit.app/');
                             $('#authenticate').hide();
                             $('#disconnect').show();
                             //localStorage.setItem("userId", null)
