@@ -83,7 +83,7 @@
         .footnote {
             color: #afafafd6;
             font-family: 'Modeco', sans-serif;
-            font-size: 20px;
+            font-size: 10px;
             font-weight: 400;
             text-align: center;
         }
@@ -127,9 +127,9 @@
         }
 
         #disconnect.small-button {
-            width: 200px;
-            height: 40px;
-            font-size: 8px;
+            width: 100px;
+            height: 20px;
+            font-size: 4px;
         }
 
     </style>
@@ -140,8 +140,9 @@
         <h1>Manage your Garmin Connection</h1>
         <button id="authenticate">Connect Garmin</button>
         <button id="goToDashboard" onclick="window.location.href='https://advancedsoulcompass.streamlit.app'">Go to Dashboard</button>
-        <button id="disconnect" class="small-button" style="display: none;">Disconnect</button>
         <div id="status" class="statusMessage"></div>
+        <button id="disconnect" class="small-button" style="display: none;">Disconnect</button>
+        
         <div id="tips">
             <!-- //update -->
             <p class="main-tip" id="main-tip">Tip: Click "Connect Garmin" to securely pair your Garmin Connect account and <br> accept the request for accessing your Daily Health Stats data.</p>
