@@ -67,8 +67,10 @@
         .main-tip {
             color: #e1e1e1;
             font-family: 'Modeco', sans-serif;
-            font-size: 40px;
+            font-size: 30px;
             text-align: center;
+            padding-left: 20%;
+            padding-right: 20%;
         }
         #status {
             color: #5df10d;
@@ -127,7 +129,7 @@
         #disconnect.small-button {
             width: 200px;
             height: 40px;
-            font-size: 20px;
+            font-size: 8px;
         }
 
     </style>
@@ -138,11 +140,11 @@
         <h1>Manage your Garmin Connection</h1>
         <button id="authenticate">Connect Garmin</button>
         <button id="goToDashboard" onclick="window.location.href='https://advancedsoulcompass.streamlit.app'">Go to Dashboard</button>
-        <button id="disconnect" class="small-button" style="display: none;">Disconnect Garmin</button>
+        <button id="disconnect" class="small-button" style="display: none;">Disconnect</button>
         <div id="status" class="statusMessage"></div>
         <div id="tips">
             <!-- //update -->
-            <p class="main-tip" id="main-tip">Tip: Click "Connect Garmin" to securely pair your Garmin Connect account<br> and accept the request for accessing your Daily Health Stats data.</p>
+            <p class="main-tip" id="main-tip">Tip: Click "Connect Garmin" to securely pair your Garmin Connect account and <br> accept the request for accessing your Daily Health Stats data.</p>
             <p class="footnote" id="footnote" style="display: none;">**If you wish to disconnect or revoke access to your data click "Disconnect".</p>
         </div>
 
@@ -253,7 +255,7 @@
                     success: function(data) {
                         if (data.status === 'success') {
                             console.log(data);
-                            $('#status').text('You have successfully connected your Garmin account. Click the link to access Soul Compass Advanced Dashboard https://advancedsoulcompass.streamlit.app/');
+                            $('#status').text('You have successfully connected your Garmin account.');
                             $('#authenticate').hide();
                             $('#goToDashboard').show();
                             $('#disconnect').show().css('font-size', '24px');
