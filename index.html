@@ -111,6 +111,25 @@
             height: auto; /* Maintain aspect ratio */
         }
 
+        #goToDashboard {
+            width: 400px;
+            height: 60px;
+            border-radius: 11%;
+            font-family: 'Modeco', sans-serif;
+            font-size: 30px;
+            font-weight: 700;
+            color: #FFF;
+            margin: 10px auto;
+            background: #2ECF3C;
+            display: none;
+        }
+
+        #disconnect.small-button {
+            width: 200px;
+            height: 40px;
+            font-size: 20px;
+        }
+
     </style>
 </head>
 <body>
@@ -118,31 +137,38 @@
         <img id="launchImage" src="launchscreenTOM.png" alt="Launch Screen Image">
         <h1>Manage your Garmin Connection</h1>
         <button id="authenticate">Connect Garmin</button>
-        <button id="disconnect" style="display: none;">Disconnect Garmin</button>
-        <!-- <div id="connectionStatus"></div> -->
+        <button id="goToDashboard" onclick="window.location.href='https://advancedsoulcompass.streamlit.app'">Go to Dashboard</button>
+        <button id="disconnect" class="small-button" style="display: none;">Disconnect Garmin</button>
         <div id="status" class="statusMessage"></div>
         <div id="tips">
-            <p class="main-tip">Tip: Click "Connect Garmin" to securely pair your Garmin Connect account<br> and accept the request for accessing your Heart Rate data.</p>
-            <p class="footnote">**If you wish to disconnect or revoke access to your data click "Disconnect".</p>
+            <p class="main-tip" id="main-tip">Tip: Click "Connect Garmin" to securely pair your Garmin Connect account<br> and accept the request for accessing your Daily Health Stats data.</p>
+            <p class="footnote" id="footnote" style="display: none;">**If you wish to disconnect or revoke access to your data click "Disconnect".</p>
         </div>
 
     <script>
         const urlParams = new URLSearchParams(window.location.search);
         const userId = urlParams.get('user_id');
-        //localStorage.setItem('userId', userId); // Store userId in local storage
         
-
         if(userId != null)
         {
             localStorage.setItem("userId", userId)
         }    
 
-        // Check Garmin status on page load
+        function updateTipsAndFootnote() {
+            if ($('#authenticate').is(':visible')) {
+                $('#main-tip').text('Tip: Click "Connect Garmin" to securely pair your Garmin Connect account and accept the request for accessing your Daily Health Stats data.');
+                $('#footnote').hide();
+            } else if ($('#disconnect').is(':visible')) {
+                $('#main-tip').text('');
+                $('#footnote').show().text('**If you wish to disconnect or revoke access to your data click "Disconnect".');
+            }
+        }
+
         $.ajax({
             url: 'https://dashboard.api.tokenofme.io/check_garmin_status',
             type: 'POST',
             contentType: 'application/json',
-            data: JSON.stringify({ user_id: localStorage.getItem('userId') }), // Get userId from local storage
+            data: JSON.stringify({ user_id: localStorage.getItem('userId') }),
             dataType: 'json',
             success: function(data) {
                 if (data.status === 'connected') {
@@ -158,15 +184,16 @@
             error: function() {
                 $('#status').text('Failed to check Garmin status');
             }
+        }).done(function() {
+            updateTipsAndFootnote();
         });
-
 
         $('#authenticate').click(function() {
             $.ajax({
                 url: 'https://dashboard.api.tokenofme.io/initiate_oauth',
                 type: 'POST',
                 contentType: 'application/json',
-                data: JSON.stringify({ user_id: localStorage.getItem('userId') }), // Get userId from local storage
+                data: JSON.stringify({ user_id: localStorage.getItem('userId') }),
                 dataType: 'json',
                 success: function(data) {
                     if (data.auth_url) {
@@ -189,7 +216,7 @@
                 url: 'https://dashboard.api.tokenofme.io/disconnect_garmin',
                 type: 'POST',
                 contentType: 'application/json',
-                data: JSON.stringify({ user_id: localStorage.getItem('userId') }), // Get userId from local storage
+                data: JSON.stringify({ user_id: localStorage.getItem('userId') }),
                 dataType: 'json',
                 success: function(data) {
                     if (data.status === 'Successfully Disconnected') {
@@ -208,6 +235,10 @@
             });
         });
 
+        $('#goToDashboard').click(function() {
+            window.location.href = 'https://advancedsoulcompass.streamlit.app';
+        });
+
         $(document).ready(function() {
             const oauthVerifier = urlParams.get('oauth_verifier');
 
@@ -216,25 +247,23 @@
                     url: 'https://dashboard.api.tokenofme.io/callback',
                     type: 'POST',
                     contentType: 'application/json',
-                    data: JSON.stringify({ user_id: localStorage.getItem('userId'), oauth_verifier: oauthVerifier }), // Get userId from local storage
+                    data: JSON.stringify({ user_id: localStorage.getItem('userId'), oauth_verifier: oauthVerifier }),
                     dataType: 'json',
                     success: function(data) {
                         if (data.status === 'success') {
                             console.log(data);
                             $('#status').text('You have successfully connected your Garmin account. Click the link to access Soul Compass Advanced Dashboard https://advancedsoulcompass.streamlit.app/');
                             $('#authenticate').hide();
-                            $('#disconnect').show();
-                            //localStorage.setItem("userId", null)
+                            $('#goToDashboard').show();
+                            $('#disconnect').show().css('font-size', '24px');
                         } else {
                             console.log(data);
-                            //$('#status').text('Failed to exchange request token for access token');
-                            //localStorage.setItem("userId", null)
                         }
                     },
                     error: function() {
-                        //$('#status').text('Failed to exchange request token for access token');
-                        //localStorage.setItem("userId", null)
                     }
+                }).done(function() {
+                    updateTipsAndFootnote();
                 });
             }
         });
